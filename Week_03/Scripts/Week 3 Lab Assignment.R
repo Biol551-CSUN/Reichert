@@ -22,5 +22,5 @@ facet_grid(~species)+
   theme_stata()+
   theme(axis.title=element_text(size=15),
         panel.background==element_rect("gray"))
-ggsave(here("Week_03","output","sex.png"),
+ggsave(here("Week_03","Output","sex.png"),
        width=7, height=5)
