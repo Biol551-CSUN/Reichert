@@ -24,3 +24,4 @@ facet_grid(~species)+
         panel.background==element_rect("gray"))
 ggsave(here("Week_03","Output","sex.png"),
        width=7, height=5)
+
