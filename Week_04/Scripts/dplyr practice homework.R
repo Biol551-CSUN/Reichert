@@ -77,7 +77,7 @@ ggplot(data =Female_Dataplot, # make a graph
        mapping=aes(x=species, # x axis 
                    y=log_mass,# y axis 
                    color = species,
-                   fill=species)) + # boxes are filled based on sex 
+                   fill=species)) + # boxes are filled based on 
   geom_boxplot()+ # type of graph 
   labs(x="species", # title of x axis 
        y="body_mass_g", # title of y axis 

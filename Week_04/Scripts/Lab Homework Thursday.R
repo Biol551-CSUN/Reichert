@@ -33,6 +33,7 @@ ChemData %>% # use data
   labs(x="Zones", # title of x axis 
        y="Salinity", # title of y axis 
        title= "ChemData Zone vs. Salinity") 
-
+ggsave(here("Week_04","Output","Lab Homework Thursday.png"), # saved 
+       width=7, height=5)
 
 
