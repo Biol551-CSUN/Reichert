@@ -2,7 +2,11 @@
 title: "Lab Homework Week 6"
 author: "Leah"
 date: "2023-03-02"
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE 
+   
 ---
 
 ```{r setup, include=FALSE}
@@ -37,11 +41,11 @@ penguins %>%
              y = body_mass_g,
              color = species,
              fill_color)) +
-  geom_point()+
-  labs(x = "Flipper Length (mm)",
+  geom_point()+ # type of graph 
+  labs(x = "Flipper Length (mm)", # titles 
        y = "Body Mass (g)",
-       color = "Species") +
-  theme_economist() 
+       color = "Species") + # color by 
+  theme_economist() # type of theme 
 ```
 # Penguin data table 
 ```{r}
