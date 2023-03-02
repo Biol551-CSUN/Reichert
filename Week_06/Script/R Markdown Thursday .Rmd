@@ -1,0 +1,72 @@
+---
+title: "Thursday R Markdown"
+author: "Leah"
+date: "2023-03-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.path = "../Output/")
+
+```
+
+# Introduction
+Today we are going to be practicing more R markdown functions 
+
+# Load Libraries 
+```{r}
+library(here)
+library(tidyverse)
+library(palmerpenguins)
+library(kableExtra)
+```
+
+# Inspect the data 
+```{r}
+glimpse(penguins)
+```
+# Make a plot 
+Plot the penguin data 
+
+```{r Flipper Length vs. Body Mass, fig.width=3, fig.height=4}
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g,
+             color = species)) +
+  geom_point()+
+  geom_smooth(method = "lm") +
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species") +
+  theme_bw()
+```
+
+# Practice making a table 
+
+|Time | Session | Topic  |
+|:----|:-------:|-------:|
+|_left_|_center_|_right_ |
+|01:00 | 1      | Anatomy|
+|01:50 |        | *Break*|
+|02:00 | 2      | Tables |
+|02:45 |        | *Break*|
+
+
+# Tables with kable 
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarise(bodymean = mean(body_mass_g, na.rm = TRUE)) %>%
+  kbl() %>%
+  kable_classic() %>%
+  row_spec(2, bold = T, color = "white", background = "red") %>% 
+  kable_styling(full_width = FALSE)
+
+```
+
+
+
+
+
+

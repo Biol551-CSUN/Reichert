@@ -1,0 +1,62 @@
+---
+title: "Lab Homework Week 6"
+author: "Leah"
+date: "2023-03-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction 
+ *This file is for my week 6 homework practicing with markdown*
+
+# Load Libraries
+```{r}
+library(here)
+library(tidyverse)
+library(palmerpenguins)
+library(kableExtra)
+library(ggthemes)
+library(ggplot2)
+library(calecopal)
+```
+
+# Inspect the data 
+```{r}
+glimpse(penguins)
+```
+# Make a plot
+  + **Flipper Length** 
+  + **Body Mass** 
+
+```{r}
+penguins %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g,
+             color = species,
+             fill_color)) +
+  geom_point()+
+  labs(x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species") +
+  theme_economist() 
+```
+# Penguin data table 
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarise(Body_Mean = mean(body_mass_g, na.rm = TRUE), # calculate mean and variance 
+            Flipper_Mean = mean(flipper_length_mm, na.rm = TRUE),
+            Body_Var = var(body_mass_g, na.rm = TRUE),
+            Flipper_Var = var(flipper_length_mm, na.rm = TRUE)) %>%
+  kbl() %>% # make a kable table 
+  kable_material() %>% #type of table 
+  row_spec(1,bold = T, color = "white", background = "purple") %>% # change the settings for row 1
+  row_spec(3, bold = T, color = "white", background = "purple") # change the settings for row 3
+```
+
+ggsave(here("Week_06","Output","Lab Homework Thursday.png"), # saved 
+       width=7, height=5)
+

@@ -45,5 +45,7 @@ inner_join(DepthData2, CondData2)%>%   ###combining data sets
        title= "Average Temperature by Time")+ ##labeling x y and title
   theme_classic() ##changing background
 
+ggsave(here("Week_05","Output","Lab Homework Thursday.png"), # saved 
+       width=7, height=5)
 
 view(depth_with_con)
