@@ -1,0 +1,75 @@
+---
+title: "Tuesday Lab HW"
+author: "Leah"
+date: "2023-03-07"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = TRUE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
+# Introduction 
+Today I am going to be making my first map 
+
+# Load Libraries 
+```{r}
+library(tidyverse)
+library(here)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(ggplot2)
+```
+
+# Load Data 
+```{r}
+# BigFoot data 
+
+bigfoot <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-09-13/bigfoot.csv')
+
+head(bigfoot) # View Data 
+```
+# Make a Map 
+
+```{r Bigfoot Sightings in Montana}
+# layers 
+usa <- map_data("usa")
+states<-map_data("state") # get data for states 
+head(states)
+
+# Filter out Montana 
+MT_data <- states %>%
+  filter(region == "montana")
+
+MT <- bigfoot %>%
+  filter(state == "Montana",
+         longitude > -140)
+
+ggplot()+
+geom_polygon(data = MT_data, 
+             aes(x = long, 
+                 y = lat,
+                 group = group,
+                 fill = region),
+                 color = "black")+
+  geom_point(data = MT,
+             aes(x = longitude,
+                 y = latitude),
+             color = "black") + 
+  labs(x = "Longitude",
+       y = "Latitude")+
+  coord_map()+
+  theme_gray() +
+  theme(panel.background = element_rect(fill = "lightblue"))
+
+
+```
+
+
