@@ -39,7 +39,7 @@ head(bigfoot) # View Data
 # Make a Map 
 
 ```{r Bigfoot Sightings in Montana}
-# layers 
+# Make layers 
 usa <- map_data("usa")
 states<-map_data("state") # get data for states 
 head(states)
@@ -52,22 +52,22 @@ MT <- bigfoot %>%
   filter(state == "Montana",
          longitude > -140)
 
-ggplot()+
+ggplot()+ # first layer plotted the states data 
 geom_polygon(data = MT_data, 
              aes(x = long, 
                  y = lat,
                  group = group,
                  fill = region),
                  color = "black")+
-  geom_point(data = MT,
+  geom_point(data = MT, # second layer is MT only data 
              aes(x = longitude,
                  y = latitude),
              color = "black") + 
-  labs(x = "Longitude",
+  labs(x = "Longitude", # rename axis 
        y = "Latitude")+
-  coord_map()+
-  theme_gray() +
-  theme(panel.background = element_rect(fill = "lightblue"))
+  coord_map()+ 
+  theme_gray() + # change theme 
+  theme(panel.background = element_rect(fill = "lightblue")) # change background 
 
 
 ```
