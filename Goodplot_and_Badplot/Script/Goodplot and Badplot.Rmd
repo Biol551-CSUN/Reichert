@@ -1,0 +1,93 @@
+---
+title: "Goodplot and Badplot"
+author: "Leah"
+date: "2023-03-28"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      fig.path = "../output/") 
+```
+
+# Introduction 
+Today we will be looking at my goodplot and badplot that I worked really hard on. 
+
+# Load Libraries 
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(here)
+library(prettydoc)
+```
+
+# Load Data 
+```{r}
+us_births_2000_2014 <- read_csv(here("Goodplot_and_Badplot", "Data", "us_births_2000-2014.csv"))
+View(us_births_2000_2014)
+```
+# **What Makes This a Bad Plot**
+- Too many points
+- Unclear legends 
+- Missing axis titles 
+- Misleading axes ranges
+- Overuse of colors  
+- Not clear it's cluttered 
+
+#BadPlot
+```{r Badplot Updated}
+us_births_2000_2014 %>% #plot data 
+  ggplot(aes(x = births, y = year))+
+  geom_point(
+    color = "blue", # point color, shape, and size 
+    fill = "orange",
+    shape = 23,
+    alpha = 0.5,
+    size = 5,
+    stroke = 2
+  )+
+  facet_wrap(~month) + #look at it by month 
+  labs( x = "", y = "") + # remove axis titles 
+  scale_y_continuous(breaks = c(2005)) + # only label 2005 
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "purple")) # theme and background 
+```
+
+# **What Makes A Goodplot**
+- Axes are clean and clear
+- Caption to explain plot
+- Emphasis on births in the year 
+- Appropriate graph 
+- Clear/ not cluttered 
+- Nice color scheme 
+
+
+#Goodplot 
+```{r Yearly Births vs. Month, fig.height = 8, fig.width = 12, fig.cap = "US births for the years 2000 to 2014."}
+us_births_2000_2014 %>%
+ggplot(aes(x = month, y = births)) +
+  geom_bar(stat = "identity", fill = "blue", alpha = 1, width =.4) +
+  coord_flip () + # flip coordinate 
+  facet_wrap(~year) + # look at by year 
+  labs(x = "Month", y = "Births", title = "Yearly Births vs. Month") +
+  scale_x_continuous(breaks = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+                     labels = c("Jan", "Feb", "Mar","Apr",  "May","Jun","Jul","Aug","Sep","Oct", "Nov", "Dec")) + # number tto word 
+  theme_dark() +
+  theme(panel.background = element_rect(fill = "snow2")) + # panel background 
+theme(plot.background = element_rect(fill = "lightblue")) + # background 
+  theme(axis.title = element_text(size = 20,
+                                  color = "navy"))
+```
+
+
+
+
+
+
+
+
