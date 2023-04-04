@@ -1,0 +1,73 @@
+---
+title: "Tuesday Lab"
+author: "Leah"
+date: "2023-04-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.path = "../Output/")
+```
+
+# Load and View Data 
+```{r}
+head(ChickWeight)
+View(ChickWeight)
+library(PNWColors) 
+library(tidyverse)
+library(ggplot2)
+```
+
+# Make a function to convert from g to lb and lb to g 
+```{r}
+g2lbs <- function(mass) { # convert from g to lbs
+  gm <- mass/453.592 
+  return(gm)
+}
+
+lbs2g <- function(mass) { # convert lbs to g 
+  lbs <- mass*453.592
+  return(lbs)
+}
+
+lbs2g(50) # test run 
+g2lbs(50)
+```
+
+# Make a function to plot time vs weight
+```{r}
+myplot <- function(data, x, y){
+
+ChickWeight %>% # use chick data 
+ggplot(aes(x = Time, y = weight, color = Chick))+ # make a graph 
+  geom_point()+
+  geom_smooth(method = "lm")+ # add a linear model
+  labs(x = "Time", # titles 
+       y = "Weight (g)",
+       color = "Chick") 
+  theme_bw()
+ 
+}   
+```
+
+
+# Function as a plot #
+```{r}
+myplot <- function(data, x, y){ # make the function 
+
+ggplot(data, aes(x = {{x}}, y = {{y}}, color = Chick))+
+  geom_point()+
+  geom_smooth(method = "lm")+ # add a linear model
+  theme_bw()
+ 
+}   
+```
+
+# Test plot 
+```{r Time vs. Weight }
+myplot(data = ChickWeight, x = Time, y= weight) + # test the function 
+  labs(x = "Time",
+       y = "Weight (g)")
+```
+
