@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      fig.path = "../Output/")
+                      fig.path = "../output/")
 ```
 
 # Load and View Data 
