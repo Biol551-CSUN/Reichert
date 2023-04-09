@@ -17,6 +17,14 @@ View(ChickWeight)
 library(PNWColors) 
 library(tidyverse)
 library(ggplot2)
+library(here)
+library(readr)
+```
+
+# Load second Data set 
+```{r}
+Chick_Fake_Data <- read_csv(here("Week_09","Data","Chick_Fake Data.csv"))
+View(Chick_Fake_Data)
 ```
 
 # Make a function to convert from g to lb and lb to g 
@@ -67,6 +75,12 @@ ggplot(data, aes(x = {{x}}, y = {{y}}, color = Chick))+
 # Test plot 
 ```{r Time vs. Weight }
 myplot(data = ChickWeight, x = Time, y= weight) + # test the function 
+  labs(x = "Time",
+       y = "Weight (g)")
+```
+# Test plot 2
+```{r}
+myplot(data = Chick_Fake_Data, x = Time, y= weight) + # test the function
   labs(x = "Time",
        y = "Weight (g)")
 ```

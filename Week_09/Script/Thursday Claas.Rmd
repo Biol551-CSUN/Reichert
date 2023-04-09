@@ -1,0 +1,30 @@
+---
+title: "Practicing making an app"
+author: "Leah"
+date: "2023-04-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction 
+Today we are going to be learning how to make an app
+
+# Add elements to your app as arguments 
+```{r}
+library(shiny)
+ui<-fluidPage('Hello World')
+server<-function(input,output){}
+shinyApp(ui = ui, server = server)
+```
+
+# Create an input function 
+```{r}
+sliderInput(inputId = "num", # ID name for the input
+            label = "Choose a number", # Label above the input
+            value = 25, min = 1, max = 100 # values for the slider
+            )
+```
+
