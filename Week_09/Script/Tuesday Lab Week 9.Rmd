@@ -79,7 +79,7 @@ myplot(data = ChickWeight, x = Time, y= weight) + # test the function
        y = "Weight (g)")
 ```
 # Test plot 2
-```{r}
+```{r Time vs. Weight - 2}
 myplot(data = Chick_Fake_Data, x = Time, y= weight) + # test the function
   labs(x = "Time",
        y = "Weight (g)")
