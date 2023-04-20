@@ -1,0 +1,50 @@
+---
+title: "Thursday HW"
+author: "Leah"
+date: "2023-04-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.path = "../output/")
+```
+
+# Today I will be working with factors for my homework 
+
+# Load Libraries 
+```{r}
+library(tidyverse)
+library(here)
+library(tidytext)
+library(janitor)
+```
+
+# Load Data 
+```{r}
+intertidaldata <- read_csv(here("Week_11","Data","intertidaldata.csv"))
+View(intertidaldata)
+```
+# Clean Data 
+```{r, Quadrat vs. Number of Crabs}
+
+clean <- intertidaldata %>%
+  mutate(Quadrat = str_trim(Quadrat)) %>% # Remove all extra whitespace 
+  mutate(Quadrat = str_replace(Quadrat, "\\.", "")) %>% # Remove the period 
+  mutate(Quadrat = str_replace(Quadrat, "\\ 1","")) %>% # Remove the 1 
+  mutate(Quadrat = str_trim(Quadrat), side = "right") %>%# Remove the white space on the right 
+  mutate(Quadrat = factor(Quadrat, levels = c("Low", "Mid", "High"))) # Change the levels to low, mid, and high order
+  
+
+
+clean %>%
+  ggplot(aes(x = Quadrat, y = `Crabs (Counts)`, color = fct_reorder( Quadrat, `Crabs (Counts)`))) + # Reorder the legend 
+  geom_col()+
+  labs(x = "Quadrat", # titles 
+       y = "Number of Crabs",
+       color = "Quadrat",
+       title = "Quadrat vs. Number of Crabs")  #title 
+  theme_classic()
+ 
+```
+
