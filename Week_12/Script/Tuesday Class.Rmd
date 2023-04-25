@@ -1,0 +1,171 @@
+---
+title: "Tuesday Class"
+author: "Leah"
+date: "2023-04-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load Libraries 
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+#Load Data
+```{r}
+testdata<-read_csv(here("Week_12", "Data","cond data","011521_CT316_1pcal.csv"))
+glimpse(testdata)
+```
+
+
+# Simple for loop
+```{r}
+print(paste("The year is", 2000))
+
+years<-c(2015:2021)
+for (i in years){ # set up the for loop where i is the index
+  print(paste("The year is", i)) # loop over i
+}
+
+#Pre-allocate space for the for loop
+# empty matrix
+year_data<-data.frame(matrix(ncol = 2, nrow = length(years)))
+# add column names
+colnames(year_data)<-c("year", "year_name")
+year_data
+
+for (i in 1:length(years)){ # set up the for loop where i is the index
+  year_data$year_name[i]<-paste("The year is", years[i]) # loop over i
+}
+year_data
+
+for (i in 1:length(years)){ # set up the for loop where i is the index
+  year_data$year_name[i]<-paste("The year is", years[i]) # loop over year name
+  year_data$year[i]<-years[i] # loop over year
+}
+year_data
+
+```
+
+# List files in a directory 
+```{r}
+# point to the location on the computer of the folder
+CondPath<-here("Week_12", "Data", "cond data")
+
+files <- dir(path = CondPath,pattern = ".csv")
+files
+```
+
+# Pre-allocate space for the loop 
+```{r}
+# pre-allocate space
+# make an empty dataframe that has one row for each file and 3 columns
+cond_data<-data.frame(matrix(nrow = length(files), ncol = 3))
+# give the dataframe column names
+colnames(cond_data)<-c("filename","mean_temp", "mean_sal")
+cond_data
+```
+
+# For loop 
+```{r}
+raw_data<-read_csv(paste0(CondPath,"/",files[1])) # test by reading in the first file and see if it works
+head(raw_data)
+
+mean_temp<-mean(raw_data$Temperature, na.rm = TRUE) # calculate a mean
+mean_temp
+```
+# Turn it into a for loop
+
+```{r}
+for (i in 1:length(files)){ # loop over 1:3 the number of files
+}
+```
+
+# Add in the loop over the raw data 
+
+```{r}
+for (i in 1:length(files)){ # loop over 1:3 the number of files 
+raw_data<-read_csv(paste0(CondPath,"/",files[i]))
+glimpse(raw_data)
+}
+```
+# Add in the columns 
+```{r}
+for (i in 1:length(files)){ # loop over 1:3 the number of files 
+raw_data<-read_csv(paste0(CondPath,"/",files[i]))
+#glimpse(raw_data)
+cond_data$filename[i]<-files[i]
+} 
+cond_data
+```
+# Add in means 
+```{r}
+for (i in 1:length(files)){ # loop over 1:3 the number of files 
+raw_data<-read_csv(paste0(CondPath,"/",files[i]))
+#glimpse(raw_data)
+cond_data$filename[i]<-files[i]
+cond_data$mean_temp[i]<-mean(raw_data$Temperature, na.rm =TRUE)
+cond_data$mean_sal[i]<-mean(raw_data$Salinity, na.rm =TRUE)
+} 
+cond_data
+```
+# Simple example of map function 
+```{r}
+1:10 %>% # a vector from 1 to 10 (we are going to do this 10 times)
+  map(rnorm, n = 15) %>% # calculate 15 random numbers based on a normal distribution in a list
+  map_dbl(mean) # calculate the mean. It is now a vector which is type "double"
+  
+```
+
+# Make your own function 
+```{r}
+1:10 %>% # list 1:10
+  map(function(x) rnorm(15, x)) %>% # make your own function
+  map_dbl(mean)
+```
+
+# Use a formula when you want to chnage the arguments within the function 
+
+```{r}
+1:10 %>%
+  map(~ rnorm(15, .x)) %>% # changes the arguments inside the function
+  map_dbl(mean)
+```
+
+# Bring in files using purrr instead of a for loop 
+```{r}
+# point to the location on the computer of the folder
+CondPath<-here("Week_12", "Data", "cond data")
+files <- dir(path = CondPath,pattern = ".csv")
+files
+
+# Or we can get the full file names in one less step 
+
+files <- dir(path = CondPath,pattern = ".csv", full.names = TRUE)
+#save the entire path name
+files
+
+```
+# Read in the files 
+```{r}
+data<-files %>%
+  set_names()%>% # set's the id of each list to the file name
+  map_df(read_csv,.id = "filename") # map everything to a dataframe and put the id in a column called filename
+data
+```
+# Calculate means 
+```{r}
+data<-files %>%
+  set_names()%>% # set's the id of each list to the file name
+  map_df(read_csv,.id = "filename") %>% # map everything to a dataframe and put the id in a column called filename
+  group_by(filename) %>%
+  summarise(mean_temp = mean(Temperature, na.rm = TRUE),
+            mean_sal = mean(Salinity,na.rm = TRUE))
+data
+```
+
